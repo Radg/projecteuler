@@ -13,8 +13,8 @@ def isPalindrome(n):
 	else:
 		return False
 
-for i in xrange(1, 999):
-	for j in xrange(1, 999):
+for i in xrange(100, 999):
+	for j in xrange(100, 999):
 		if isPalindrome(i * j) and (i * j) > product:
 			product = i * j
 
