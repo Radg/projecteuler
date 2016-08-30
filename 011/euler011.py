@@ -28,6 +28,8 @@
 
 # What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
 
+from operator import mul
+
 maxproduct = 1
 matrix = [[8,  02, 22, 97, 38, 15, 00, 40, 00, 75, 04, 05, 07, 78, 52, 12, 50, 77, 91, 8 ],
           [49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 04, 56, 62, 00],
@@ -50,16 +52,18 @@ matrix = [[8,  02, 22, 97, 38, 15, 00, 40, 00, 75, 04, 05, 07, 78, 52, 12, 50, 7
           [20, 73, 35, 29, 78, 31, 90, 01, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 05, 54],
           [01, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 01, 89, 19, 67, 48]]
 
+rng = [0, 1, 2, 3]
+
 for i in xrange(3, 16):
 	for j in xrange(3, 16):
-		product = max(matrix[i][j] * matrix[i+1][j] * matrix[i+2][j] * matrix[i+3][j],
-		              matrix[i][j] * matrix[i-1][j] * matrix[i-2][j] * matrix[i-3][j],
-		              matrix[i][j] * matrix[i][j+1] * matrix[i][j+2] * matrix[i][j+3],
-		              matrix[i][j] * matrix[i][j-1] * matrix[i][j-2] * matrix[i][j-3],
-		              matrix[i][j] * matrix[i-1][j-1] * matrix[i-2][j-2] * matrix[i-3][j-3],
-		              matrix[i][j] * matrix[i+1][j+1] * matrix[i+2][j+2] * matrix[i+3][j+3],
-		              matrix[i][j] * matrix[i-1][j+1] * matrix[i-2][j+2] * matrix[i-3][j+3],
-		              matrix[i][j] * matrix[i+1][j-1] * matrix[i+2][j-2] * matrix[i+3][j-3])
+		product = max(reduce(mul, (matrix[i+n][j] for n in rng)),
+			          reduce(mul, (matrix[i-n][j] for n in rng)),
+			          reduce(mul, (matrix[i][j+n] for n in rng)),
+			          reduce(mul, (matrix[i][j-n] for n in rng)),
+			          reduce(mul, (matrix[i-n][j-n] for n in rng)),
+			          reduce(mul, (matrix[i+n][j+n] for n in rng)),
+			          reduce(mul, (matrix[i-n][j+n] for n in rng)),
+			          reduce(mul, (matrix[i+n][j-n] for n in rng)))
 		maxproduct = product if product > maxproduct else maxproduct
 
 print maxproduct
