@@ -23,7 +23,7 @@ from operator import mul
 triangle = number = 1
 
 def canonicalRepresentation(n):
-	'''Returns canonical representation of number as a dictionary'''
+	'''Returns canonical representation of number as a dictionary, key is factor, value is degree'''
 	if n == 1: return {1:0}
 	factors, d, c = {}, 2, 0
 	while d * d <= n:
