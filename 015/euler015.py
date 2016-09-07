@@ -5,15 +5,13 @@
 
 # How many such routes are there through a 20×20 grid?
 
-gridSize = 21
+gridSize = 20
 
-grid = [[0]*gridSize for i in range(gridSize)]
+lst = [1] * gridSize
 
-for i in xrange(gridSize - 1):
-	grid[i][gridSize-1] = grid[gridSize-1][i] = 1
+for i in xrange(gridSize):
+	for j in xrange(i):
+		lst[j] += lst[j - 1]
+	lst[i] = 2 * lst[i - 1]
 
-for i in xrange(gridSize - 2, -1, -1):
-	for j in xrange(i, -1, -1):
-		grid[i][j] = grid [j][i] = grid[i+1][j] + grid[i][j+1]
-
-print grid[0][0]
+print lst[-1]
